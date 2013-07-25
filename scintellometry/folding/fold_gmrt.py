@@ -2,8 +2,6 @@
 from __future__ import division, print_function
 
 import numpy as np
-
-
 from fromfile import fromfile
 
 def fold(file1, file2, dtype, samplerate, fbottom, fband, nblock,
