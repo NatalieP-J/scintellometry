@@ -117,9 +117,9 @@ def fold(file1, dtype, samplerate, fedge, fedge_at_top, nchan,
             # just in case numbers were set wrong -- break if file ends
             # better keep at least the work done
             try:
-                # data just a series of bytes, each containing one 8 bit or
-                # two 4-bit samples (set by dtype in caller)
-                raw = fromfile(fh1, dtype, recsize)
+                # data stored as series of two two-byte complex numbers,
+                # one for each polarization
+                raw = fromfile(fh1, dtype, recsize).reshape(-1, nchan*2)
             except(EOFError, IOError) as exc:
                 print("Hit {}; writing pgm's".format(exc))
                 break
