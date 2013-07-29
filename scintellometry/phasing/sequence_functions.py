@@ -57,6 +57,7 @@ stamp = stamps[source]
 #i goes from 0 to 4 because older files span 1-4 while newer ones span 0-3
 #This means that at least one timestamp is reported missing for every node
 def ImportTime_MergeDisks_SORT(node,stamp_ID):
+<<<<<<< HEAD
     """ Return a list of modified timestamps suitable for sequencing.
         Report missing timestamp files.
 
@@ -67,6 +68,8 @@ def ImportTime_MergeDisks_SORT(node,stamp_ID):
                     the stamp_ID is '.2013-07-25T01:30:00'
 
     """
+=======
+>>>>>>> Added sequencing routines
     newlist=[]    
     i=0
     while i < 5:
@@ -99,6 +102,7 @@ def ImportTime_MergeDisks_SORT(node,stamp_ID):
 #rectified (hopefully)
 #outputs a masterlist of timestamps merged across all nodes
 def Time_MergeNodes_SORT(min_node,tot,stamp_ID,clock_fix):
+<<<<<<< HEAD
     """ Return a numerically sorted list of timestamps merged across all nodes. 
         Report nodes that are missing all timestamp files.
         Apply a time adjustment if called for.
@@ -114,6 +118,8 @@ def Time_MergeNodes_SORT(min_node,tot,stamp_ID,clock_fix):
                     *STILL IN BETA*
 
     """
+=======
+>>>>>>> Added sequencing routines
     masterlist = []
     time = []
     max_node = min_node + tot
@@ -158,6 +164,7 @@ def Time_MergeNodes_SORT(min_node,tot,stamp_ID,clock_fix):
     masterlist.sort()
     return masterlist
 
+<<<<<<< HEAD
 ##generate timestamps ~0.251 seconds apart
 ##still doesn't quite do what I need
 #def GenTimestamps(time,interval,stamp_ID):
@@ -173,16 +180,34 @@ def Time_MergeNodes_SORT(min_node,tot,stamp_ID,clock_fix):
             #data.write("{0}\n".format(i))
             #print 'working {0}'.format(float(i)/end)
             #i+=rate
+=======
+#generate timestamps ~0.251 seconds apart
+def GenTimestamps(time,interval,stamp_ID):
+    fname = "gen_timestamp_{0}.dat".format(stamp_ID)
+    start = time[0]
+    year = time[0][0]
+    month = time[0][1]
+    end=time[len(time)]
+    with open(fname,"w") as data:
+        data.write("{0}\n".format(start))
+        while i<= (end):
+            data.write("{0}\n".format(i))
+            print 'working {0}'.format(float(i)/end)
+            i+=rate
+>>>>>>> Added sequencing routines
 
 #checks that each file starts at the same time and identifies the nodes that
 #do not conform
 def CheckStartTimes(starter_values):
+<<<<<<< HEAD
     """ Check that each pair of values in the list are within 0.3 of each other
         when rounded to one decimal place.
         Return a list of differences and the indices of the pairs associated 
         with them.
             starter_values -- a list of values
     """
+=======
+>>>>>>> Added sequencing routines
     newlist=[]
     interval = []
     problem_node = []
@@ -192,7 +217,11 @@ def CheckStartTimes(starter_values):
         while j < (len(starter_values)):
             diff = starter_values[i][0] - starter_values[j][0]
             diff = np.around(diff, decimals=1)
+<<<<<<< HEAD
             if diff < 0.3: #0.3 being the rate rounded to one decimal point
+=======
+            if diff < 61: #0.3 being the rate rounded to one decimal point
+>>>>>>> Added sequencing routines
                 pass
             else:
                 interval.append(diff)
@@ -208,6 +237,7 @@ def CheckStartTimes(starter_values):
 #timestamps - takes a masterlist of timestamps merged across all disks and 
 #nodes and outputs a masterlist
 def SequenceTimestamp(masterlist):
+<<<<<<< HEAD
     """ Assign a sequence number to each value in the list.
         Identify duplicate timestamps (if on the same node) and give them 
         the same sequence number.
@@ -218,6 +248,8 @@ def SequenceTimestamp(masterlist):
                 or TimestampSplitter_ClockError 
                 or TimestampSplitter
     """
+=======
+>>>>>>> Added sequencing routines
     duplicates=[' ']*len(masterlist)
     m=0  
     n=0
@@ -260,6 +292,7 @@ def SequenceTimestamp(masterlist):
 #write masterlist produced by SequenceTimestamp to the appropriate sequence 
 #files
 def CreateSequenceFile(min_node,tot,masterlist,stamp_ID):
+<<<<<<< HEAD
     """ Write a list of sequenced timestamps to appropriately named files.
         Create a master sequence file.
             min_node -- the smallest node number, an integer
@@ -272,6 +305,8 @@ def CreateSequenceFile(min_node,tot,masterlist,stamp_ID):
                     eg if the file name is timestamp.2013-07-25T01:30:00.1.dat,
                     the stamp_ID is '.2013-07-25T01:30:00'
     """
+=======
+>>>>>>> Added sequencing routines
     n=min_node
     max_node = min_node + tot
     while n < max_node:
@@ -287,13 +322,20 @@ def CreateSequenceFile(min_node,tot,masterlist,stamp_ID):
     name='MasterSequenceFile{0}.dat'.format(stamp_ID)
     master=[]
     for i in range(len(masterlist)):
+<<<<<<< HEAD
         point=[masterlist[i][4],masterlist[i][1],masterlist[i][2],masterlist[i][5]]
+=======
+        point=[masterlist[i][4],masterlist[i][1],(masterlist[i][2]),masterlist[i][5]]
+>>>>>>> Added sequencing routines
         master.append(point)
     man.WriteFile4Cols(master,name)
 
 #Check differences between consecutive values in a list
 def Differences(values,index):
+<<<<<<< HEAD
     """Find the difference between consecutive elements in a list"""
+=======
+>>>>>>> Added sequencing routines
     newlist=[]
     for i in range(len(values)-1):
         point=values[i+1][index]-values[i][index]
@@ -302,6 +344,7 @@ def Differences(values,index):
 
 #sort existing sequence files into numerical order by sequence numbers
 def SortSequence(min_node,tot,stamp_ID):
+<<<<<<< HEAD
     """Sort a sequence file by sequence number
             min_node -- the smallest node number, an integer
             tot -- the total number of nodes, an integer
@@ -309,6 +352,8 @@ def SortSequence(min_node,tot,stamp_ID):
                     eg if the file name is timestamp.2013-07-25T01:30:00.1.dat,
                     the stamp_ID is '.2013-07-25T01:30:00'
     """
+=======
+>>>>>>> Added sequencing routines
     n = min_node
     max_node = min_node + tot
     if '_voltage' in stamp_ID:
@@ -338,7 +383,10 @@ def SortSequence(min_node,tot,stamp_ID):
 
 #Compare produced seqeunce file with original one
 def SequenceCompare(min_node,tot,stamp_ID):
+<<<<<<< HEAD
     """Compare a produced sequence file with the original one"""
+=======
+>>>>>>> Added sequencing routines
     n=min_node
     max_node = min_node + tot
     while n < max_node:
@@ -380,7 +428,10 @@ def SequenceCompare(min_node,tot,stamp_ID):
 
 #Merge timestamps into a master timestamp file
 def TimestampMerge(min_node,tot,stamp_ID):
+<<<<<<< HEAD
     """Merge timestamps files across nodes and write merged list to file"""
+=======
+>>>>>>> Added sequencing routines
     masterlist=[]
     diff=[]
     n=min_node
@@ -442,9 +493,12 @@ def TimestampMerge(min_node,tot,stamp_ID):
 #Split timestamps file on certain times (ie when 1 file contains multiple
 #sources) - produces a list
 def TimestampSplitter_ClockError(min_node,tot,stamp_ID,time_split):
+<<<<<<< HEAD
     """ Split a list of timestamps on predefined values.
         Check for clock errors
     """
+=======
+>>>>>>> Added sequencing routines
     masterlist = []
     split_mastertime = []
     write_time = []
@@ -500,7 +554,10 @@ def TimestampSplitter_ClockError(min_node,tot,stamp_ID,time_split):
     return split_mastertime
 
 def TimestampSplitter(min_node,tot,stamp_ID,time_split):
+<<<<<<< HEAD
     """ Split timestamps on a predefined values"""
+=======
+>>>>>>> Added sequencing routines
     masterlist = []
     split_mastertime = []
     write_time = []
@@ -530,7 +587,10 @@ def TimestampSplitter(min_node,tot,stamp_ID,time_split):
     return split_mastertime
 
 def GenerateSequencing(min_node,tot,split,time_split,clock_fix,stamp_ID):
+<<<<<<< HEAD
     """A parent function that runs a list of functions to produce sequence files"""
+=======
+>>>>>>> Added sequencing routines
     if split is True:
         if clock_fix is True:
             master = TimestampSplitter_ClockError(min_node,tot,stamp_ID,time_split)
