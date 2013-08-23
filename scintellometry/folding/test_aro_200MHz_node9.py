@@ -38,17 +38,17 @@ if __name__ == '__main__':
                                                -1.1792841185454315e-38,
                                                2.6298912108944255e-43]),
                      'B1919+21': Polynomial([0.5, 0.7477741603725]),
-                     'B1957+20': Polynomial([-4432632.745592528
-                                             622.12215911292049
-                                             -9.5671908046310304e-07
-                                             1.9590603497035876e-11
-                                             2.8814289643278323e-15
-                                             -3.6156188539059761e-20
-                                             -3.4830127197278667e-24
-                                             3.1273389379062427e-29
-                                             2.1616966413921596e-33
-                                             -6.6126750943027999e-39
-                                             -1.3236264823863004e-42
+                     'B1957+20': Polynomial([-4432632.745592528,
+                                             622.12215911292049,
+                                             -9.5671908046310304e-07,
+                                             1.9590603497035876e-11,
+                                             2.8814289643278323e-15,
+                                             -3.6156188539059761e-20,
+                                             -3.4830127197278667e-24,
+                                             3.1273389379062427e-29,
+                                             2.1616966413921596e-33,
+                                             -6.6126750943027999e-39,
+                                             -1.3236264823863004e-42,
                                              1.7711617341806616e-47]),
                      'B2016+28': Polynomial([0., 1.7922641135652]),
                      'noise': Polynomial([0., 1.])}
@@ -68,11 +68,12 @@ if __name__ == '__main__':
     # had 414 * 32MB
     size = 13891534848 * 16
     # frequency channels to make
-    nchan = 1024
+    nchan = 16384 #2**14
     ntbin = 18 // 3  # number of bins the time series is split into for folding
     recsize = 2**25  # 32MB sets
     ntint = recsize//nchan  # number of samples after FFT
     nt = size//recsize    # number of sets to fold
+    nt = 1000
     ngate = 64  # number of bins over the pulsar period
     ntw = min(100000, nt*ntint)  # number of samples to combine for waterfall
 
@@ -93,10 +94,15 @@ if __name__ == '__main__':
     #                ['/mnt/aro/hdd2_node7/algonquin/raw_voltage.2013-07-24T15:06:16.0.dat',
     #                 '/mnt/aro/hdd1_node7/algonquin/raw_voltage.2013-07-24T15:06:16.1.dat',
     #                 '/mnt/aro/hdd3_node7/algonquin/raw_voltage.2013-07-24T15:06:16.2.dat']) as fh1:
-    with multifile('/mnt/aro/hdd2_node7/algonquin/sequence.2013-07-27T16:55:17.3.dat',
-                   ['/mnt/aro/hdd2_node7/algonquin/raw_voltage.2013-07-27T16:55:17.0.dat',
-                    '/mnt/aro/hdd1_node7/algonquin/raw_voltage.2013-07-27T16:55:17.1.dat',
-                    '/mnt/aro/hdd3_node7/algonquin/raw_voltage.2013-07-27T16:55:17.2.dat']) as fh1:
+    #with multifile('/mnt/aro/hdd2_node7/algonquin/sequence.2013-07-27T16:55:17.3.dat',
+    #               ['/mnt/aro/hdd2_node7/algonquin/raw_voltage.2013-07-27T16:55:17.0.dat',
+    #                '/mnt/aro/hdd1_node7/algonquin/raw_voltage.2013-07-27T16:55:17.1.dat',
+    #                '/mnt/aro/hdd3_node7/algonquin/raw_voltage.2013-07-27T16:55:17.2.dat']) as fh1:
+
+    with multifile('/mnt/aro/hdd2_node2/algonquin/sequence.2013-07-26T18:31:14.3.dat',
+                   ['/mnt/aro/hdd2_node2/algonquin/raw_voltage.2013-07-26T18:31:14.0.dat',
+                    '/mnt/aro/hdd1_node2/algonquin/raw_voltage.2013-07-26T18:31:14.1.dat',
+                    '/mnt/aro/hdd3_node2/algonquin/raw_voltage.2013-07-26T18:31:14.2.dat']) as fh1:
 
         foldspec2, waterfall = fold(fh1, '4bit', samplerate,
                                     fedge, fedge_at_top, nchan,
